@@ -168,10 +168,11 @@ class EvergreenApi(object):
         """
         response = self._call_api(url, params)
         json_data = response.json()
+
         while "next" in response.links:
             if params and "limit" in params and len(json_data) >= params["limit"]:
                 break
-            response = self._call_api(response.links["next"]["url"])
+            response = self._call_api(response.links["next"]["url"], params)
             if response.json():
                 json_data.extend(response.json())
 
